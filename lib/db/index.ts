@@ -9,6 +9,6 @@ const client = new Client({
 
 client.connect();
 
-//const db = drizzle(pool, { schema }) as NodePgDatabase<typeof schema>;
+const db = drizzle(client, { schema: schema });
 
-export const db = drizzle(client, { schema: schema });
+export default db;

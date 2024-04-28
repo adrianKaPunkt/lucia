@@ -34,22 +34,27 @@ const DayModal = ({ showModal, user, date }: DayModalProps) => {
   };
 
   return (
-    <Dialog open={true} onOpenChange={showModal}>
-      <DialogContent className="flex w-full max-w-[920px] flex-col gap-6 border-none bg-gray-600 px-6 py-6 text-white">
-        <div className="flex justify-between mt-4 text-sm">
-          <div className="text-left">
-            <p>{user.firstName + ' ' + user.lastName}</p>
+    <>
+      Hallo
+      <Dialog open={true} onOpenChange={showModal}>
+        <DialogContent className="flex w-full max-w-[920px] flex-col gap-6 border-none bg-gray-600 px-6 py-6 text-white">
+          <div className="flex justify-between mt-4 text-sm">
+            <div className="text-left">
+              <p>{user?.firstName + ' ' + user?.lastName}</p>
+            </div>
+            <div className="text-right">
+              <p>{getDateDifference()}</p>
+            </div>
           </div>
-          <div className="text-right">
-            <p>{getDateDifference()}</p>
+          <div className="text-center">
+            <p className="text-2xl pb-4">
+              Calendar Week - {dayjs(date).week()}
+            </p>
+            <p className="text-4xl">{`${weekday}, ${day}. ${month} ${year}`}</p>
           </div>
-        </div>
-        <div className="text-center">
-          <p className="text-2xl pb-4">Calendar Week - {dayjs(date).week()}</p>
-          <p className="text-4xl">{`${weekday}, ${day}. ${month} ${year}`}</p>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 export default DayModal;

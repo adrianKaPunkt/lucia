@@ -5,7 +5,7 @@ import UserButton from './UserButton';
 
 const Navbar = () => {
   return (
-    <nav className="fixed w-full h-16 bg-slate-300 dark:bg-slate-700 flex items-center justify-between p-3">
+    <nav className="fixed z-50 w-full h-16 bg-slate-300 dark:bg-slate-700 flex items-center justify-between p-3">
       <div>
         <Link href="/">
           <Image src="/icons/logo.svg" alt="logo" width={140} height={35} />

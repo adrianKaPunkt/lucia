@@ -16,7 +16,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
       <SessionProvider value={sessionData}>
         <Navbar />
         <div>
-          <div className="flex pt-16 ml-6">
+          <div className="flex pt-16 ml-9">
             <Sidebar />
             <div className="flex p-5 w-full h-[calc(100vh-64px)]">
               {children}
