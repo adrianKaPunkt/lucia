@@ -6,7 +6,7 @@ import { NextRequest } from 'next/server';
 export async function GET(request: NextRequest) {
   const result = await db
     .select({
-      date: dayTable.date,
+      //date: dayTable.date,
       id: userTable.id,
       email: userTable.email,
       role: userTable.role,
@@ -20,8 +20,8 @@ export async function GET(request: NextRequest) {
       birthday: profileTable.birthday,
     })
     .from(userTable)
-    .leftJoin(profileTable, eq(userTable.id, profileTable.id))
-    .leftJoin(dayTable, eq(userTable.id, dayTable.userId));
+    .rightJoin(profileTable, eq(userTable.id, profileTable.id))
+    .rightJoin(dayTable, eq(dayTable.userId, userTable.id));
 
   return new Response(JSON.stringify(result));
 }

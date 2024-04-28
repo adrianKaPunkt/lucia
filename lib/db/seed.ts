@@ -246,8 +246,8 @@ async function main() {
       });
 
       const task = await db.insert(taskTable).values({
+        dayId: i,
         description: faker.lorem.word(),
-        from: faker.
       });
     }
   }

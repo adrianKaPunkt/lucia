@@ -1,58 +1,9 @@
 {
-  "id": "f4c72ab6-cfc0-41ba-8274-2879c33cb101",
+  "id": "f370942e-dbdc-408b-aacb-3fbacb63b175",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "dayOnTask": {
-      "name": "dayOnTask",
-      "schema": "",
-      "columns": {
-        "day_id": {
-          "name": "day_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "task_id": {
-          "name": "task_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "dayOnTask_day_id_day_id_fk": {
-          "name": "dayOnTask_day_id_day_id_fk",
-          "tableFrom": "dayOnTask",
-          "tableTo": "day",
-          "columnsFrom": [
-            "day_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "dayOnTask_task_id_task_id_fk": {
-          "name": "dayOnTask_task_id_task_id_fk",
-          "tableFrom": "dayOnTask",
-          "tableTo": "task",
-          "columnsFrom": [
-            "task_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "day": {
       "name": "day",
       "schema": "",
@@ -327,33 +278,63 @@
           "primaryKey": true,
           "notNull": true
         },
+        "day_id": {
+          "name": "day_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
         "description": {
           "name": "description",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "from": {
-          "name": "from",
-          "type": "time",
+        "start_at": {
+          "name": "start_at",
+          "type": "time(0) with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'12:00:00'"
         },
-        "until": {
-          "name": "until",
-          "type": "time",
+        "end_at": {
+          "name": "end_at",
+          "type": "time(0) with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'18:00:00'"
         },
-        "state": {
-          "name": "state",
-          "type": "state",
+        "task_state": {
+          "name": "task_state",
+          "type": "task_state",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": "'START'"
+        },
+        "task_type": {
+          "name": "task_type",
+          "type": "task_type",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'WORK'"
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "task_day_id_day_id_fk": {
+          "name": "task_day_id_day_id_fk",
+          "tableFrom": "task",
+          "tableTo": "day",
+          "columnsFrom": [
+            "day_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -398,7 +379,7 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
-          "default": "'2024-04-28 13:14:03.450'"
+          "default": "'2024-04-28 16:27:50.171'"
         }
       },
       "indexes": {},
@@ -625,11 +606,18 @@
         "ADMIN": "ADMIN"
       }
     },
-    "state": {
-      "name": "state",
+    "task_state": {
+      "name": "task_state",
       "values": {
         "START": "START",
         "STOP": "STOP"
+      }
+    },
+    "task_type": {
+      "name": "task_type",
+      "values": {
+        "WORK": "WORK",
+        "TASK": "TASK"
       }
     }
   },

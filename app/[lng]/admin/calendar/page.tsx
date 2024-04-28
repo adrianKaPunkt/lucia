@@ -19,7 +19,7 @@ const CalendarPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const users = await axios
-        .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/calendar`)
+        .get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`)
         .then((response) => {
           return response.data;
         });

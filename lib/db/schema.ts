@@ -13,7 +13,8 @@ import {
 } from 'drizzle-orm/pg-core';
 
 export const roleEnums = pgEnum('role', ['GUEST', 'USER', 'ADMIN']);
-export const stateEnums = pgEnum('state', ['START', 'STOP']);
+export const taskStateEnums = pgEnum('task_state', ['START', 'STOP']);
+export const taskTypeEnums = pgEnum('task_type', ['WORK', 'TASK']);
 export const countryEnums = pgEnum('country', [
   'Afghanistan',
   'Albania',
@@ -245,17 +246,20 @@ export const dayTable = pgTable('day', {
     .references(() => userTable.id),
 });
 
-export const dayOnTaskTable = pgTable('dayOnTask', {
-  dayId: integer('day_id').references(() => dayTable.id),
-  taskId: integer('task_id').references(() => taskTable.id),
-});
-
 export const taskTable = pgTable('task', {
   id: serial('id').primaryKey(),
+  dayId: integer('day_id')
+    .notNull()
+    .references(() => dayTable.id),
   description: text('description').notNull(),
-  from: time('from'),
-  until: time('until'),
-  state: stateEnums('state'),
+  startAt: time('start_at', { precision: 0, withTimezone: true }).default(
+    '12:00:00'
+  ),
+  endAt: time('end_at', { precision: 0, withTimezone: true }).default(
+    '18:00:00'
+  ),
+  state: taskStateEnums('task_state').default('START'),
+  type: taskTypeEnums('task_type').default('WORK'),
 });
 
 export const emailVerificationTable = pgTable('email_verification', {
@@ -307,20 +311,12 @@ export const dayRelations = relations(dayTable, ({ one, many }) => ({
     fields: [dayTable.userId],
     references: [userTable.id],
   }),
-  tasks: many(dayOnTaskTable),
+  tasks: many(taskTable),
 }));
 
-export const taskRelations = relations(taskTable, ({ many }) => ({
-  dayOnTask: many(dayOnTaskTable),
-}));
-
-export const dayOnTaskRelation = relations(dayOnTaskTable, ({ one }) => ({
-  day: one(dayTable, {
-    fields: [dayOnTaskTable.dayId],
+export const taskRelations = relations(taskTable, ({ one }) => ({
+  dayOnTask: one(dayTable, {
+    fields: [taskTable.dayId],
     references: [dayTable.id],
-  }),
-  task: one(taskTable, {
-    fields: [dayOnTaskTable.taskId],
-    references: [taskTable.id],
   }),
 }));

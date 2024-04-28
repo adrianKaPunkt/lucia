@@ -101,7 +101,6 @@ const Columns = ({ changeColumns, y, m }: ColumnsProps) => {
         },
         cell: ({ row }) => {
           let user = row.original;
-          console.log(date.format('YYYY-MM-DDT[00:00:00.000Z]'));
           return (
             <div
               className="flex justify-center items-center cursor-pointer w-8 h-8"
